@@ -3,10 +3,10 @@ module ArgosTracker
     @config = {}
 
     class << self
-      def set_config(product, api_key, source, product_name, enviroment = 'development')
+      def set_config(api_key, source, product_name, enviroment = 'development')
         url = get_url(enviroment)
 
-        @config[product] = {
+        @config = {
           api_key: api_key,
           base_url: url,
           body: { source: source,
@@ -27,8 +27,8 @@ module ArgosTracker
         end
       end
 
-      def get_config(product)
-        @config[product] || {}
+      def get_config
+        @config || {}
       end
     end
   end
