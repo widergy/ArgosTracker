@@ -3,6 +3,7 @@
 require_relative 'argos_tracker/version'
 require 'argos_tracker/engine'
 require 'argos_tracker/config'
+require 'securerandom'
 
 module ArgosTracker
   class Error < StandardError; end
@@ -44,10 +45,11 @@ module ArgosTracker
     def body_request(options, params)
       {
         channel: params[:channel], source: options[:source], product: options[:product],
-        utility_code: params[:utility_code], timestamp: Time.now.to_i,
-        event_category: params[:event_category], event_type: params[:event_type],
-        flow_user_id: params[:flow_user_id], flow_id: params[:flow_id] || nil, data: data
-      }
+        utility_code: params[:utility_code], timestamp: Time.now.to_i, event_id: SecureRandom.uuid,
+        event_category: params[:event_category], event_type: params[:event_type], user_id: params[:user_id],
+        flow_user_id: params[:flow_user_id], flow_id: params[:flow_id] || nil, data: data,
+        user_external_id: params[:user_external_id]
+      }.compact
     end
 
     def send_request(http_verb, params)
