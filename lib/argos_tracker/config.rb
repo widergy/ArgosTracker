@@ -17,13 +17,13 @@ module ArgosTracker
       def get_url(environment)
         case environment
         when 'development'
-          'https://argos.widergydev.com/v1'
+          'https://argos.widergydev.com/v1/events/transactions'
         when 'production'
-          'https://argos.widergy.com/v1'
+          'https://argos.widergy.com/v1/events/transactions'
         when 'staging'
-          'https://argos.widergydev.com/v1'
+          'https://argos.widergydev.com/v1/events/transactions'
         else
-          'https://argos.widergydev.com/v1'
+          'https://argos.widergydev.com/v1/events/transactions'
         end
       end
 
