@@ -35,13 +35,15 @@ module ArgosTracker
       }
     end
 
-    def body_request(body, params)
+    def body_request(body, params) # rubocop:disable Metrics/AbcSize
       {
         channel: params[:channel], source: body[:source], product: body[:product],
-        utility_code: params[:utility_code] || params['utility_code'], timestamp: Time.now.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ'), 
-        event_id: SecureRandom.uuid, event_category: params[:event_category], event_type: params[:event_type], user_id: params[:user_id] || params['user_id'],
-        flow_user_id: params[:flow_user_id], flow_id: params[:flow_id] || nil, data: @data,
-        user_external_id: params[:user_external_id] || params['user_external_id']
+        utility_code: params[:utility_code] || params['utility_code'],
+        timestamp: Time.now.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ'), event_id: SecureRandom.uuid,
+        event_category: params[:event_category], event_type: params[:event_type],
+        user_id: params[:user_id] || params['user_id'], flow_user_id: params[:flow_user_id] || nil,
+        flow_id: params[:flow_id] || nil, data: @data, user_external_id:
+        params[:user_external_id] || params['user_external_id']
       }.compact
     end
 
