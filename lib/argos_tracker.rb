@@ -31,7 +31,7 @@ module ArgosTracker
           'Content-Type' => 'application/json'
         },
         body: body_request(options[:body], params),
-        query: {api_key: options[:api_key] }
+        query: { api_key: options[:api_key] }
       }
     end
 
@@ -41,7 +41,8 @@ module ArgosTracker
         utility_code: params[:utility_code] || params['utility_code'],
         timestamp: Time.now.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ'), event_id: SecureRandom.uuid,
         event_category: params[:event_category], event_type: params[:event_type],
-        user_id: params[:user_id] || params['user_id'], flow_user_id: params[:flow_user_id] || params['flow_user_id'],
+        user_id: params[:user_id] || params['user_id'],
+        flow_user_id: params[:flow_user_id] || params['flow_user_id'],
         flow_id: params[:flow_id] || params['flow_id'], data: @data, user_external_id:
         params[:user_external_id] || params['user_external_id']
       }.compact
