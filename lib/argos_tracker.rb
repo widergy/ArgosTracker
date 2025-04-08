@@ -52,15 +52,16 @@ module ArgosTracker
       options = prepare_request(params)
       responses = HTTParty.send(http_verb, options[:url], query: options[:query], body: options[:body].to_json,
                                                           headers: options[:headers], timeout: options[:timeout])
-      report_error_request(params, response) if responses.code != 200
+      report_error_request(params) if responses.code != 200
       responses
     end
 
-    def report_error_request(channel, utility_code, event_category, event_type)
+    def report_error_request(params)
       ArgosTracker::Config.get_config
-      Rollbar.error('Argos response: Code error.', utility: "Utility - CODE: #{utility_code}",
-                                                   channel: channel, event_category: event_category,
-                                                   event_type: event_type)
+      Rollbar.error('Argos response: Code error.',
+                    utility: "Utility - CODE: #{params[:utility_code] || params['utility_code']}",
+                    channel: params[:channel] || params['channel'], event_category: params[:event_category],
+                    event_type: params[:event_type])
     end
 
     def report_error_config
