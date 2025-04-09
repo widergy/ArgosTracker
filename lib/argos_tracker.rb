@@ -51,6 +51,8 @@ module ArgosTracker
     def send_request(http_verb, params)
       options = prepare_request(params)
       log(http_verb, params, options)
+      return if options[:url].nil?
+
       responses = HTTParty.send(http_verb, options[:url], query: options[:query], body: options[:body].to_json,
                                                           headers: options[:headers], timeout: options[:timeout])
       report_error_request(params) if responses.code != 200
