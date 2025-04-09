@@ -50,7 +50,7 @@ module ArgosTracker
 
     def send_request(http_verb, params)
       options = prepare_request(params)
-      log(params, options)
+      log(http_verb, params, options)
       responses = HTTParty.send(http_verb, options[:url], query: options[:query], body: options[:body].to_json,
                                                           headers: options[:headers], timeout: options[:timeout])
       report_error_request(params) if responses.code != 200
@@ -69,11 +69,12 @@ module ArgosTracker
       Rollbar.error('Argos config: Cannot obtain config')
     end
 
-    def log(params, options)
+    def log(http_verb, params, options)
       Rails.logger.info do
         "Utility_Id: #{params[:utility_code] || params['utility_code']}\n" \
         "Request -\n" \
-        "url: #{options[:url]}\n" \
+        "Method: #{http_verb}\n" \
+        "Url: #{options[:url]}\n" \
         "Query: #{options[:query]}\n" \
         "Header: #{options[:headers]}\n" \
         "Body: #{options[:body]}\n\n"
